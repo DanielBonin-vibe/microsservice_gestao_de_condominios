@@ -1,0 +1,86 @@
+CREATE TABLE IF NOT EXISTS morador(
+    id_morador INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    data_nascimento DATE NOT NULL,
+    cpf VARCHAR(11) NOT NULL UNIQUE, 
+    email VARCHAR(100) NOT NULL UNIQUE,
+    senha_hash VARCHAR(255) NOT NULL, 
+    ativo BOOLEAN DEFAULT TRUE NOT NULL,
+    data_criacao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    data_atualziacao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS condominio(
+    id_condominio INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    cnpj VARCHAR(14) NOT NULL UNIQUE, 
+    endereco VARCHAR(100) NOT NULL UNIQUE,
+    ativo BOOLEAN DEFAULT TRUE NOT NULL,
+    data_criacao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS bloco(
+    id_bloco INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id_condominio INTEGER NOT NULL,
+    nome VARCHAR(100) NOT NULL,
+
+    FOREIGN KEY(id_condominio) REFERENCES condominio(id_condominio), 
+    UNIQUE(id_condominio, nome)
+);
+
+CREATE TABLE IF NOT EXISTS unidade(
+    id_unidade INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
+    id_bloco INTEGER NOT NULL,
+    numero INTEGER NOT NULL UNIQUE, 
+    andar INTEGER NOT NULL,
+    tipo VARCHAR(100) NOT NULL,
+    ativo BOOLEAN DEFAULT TRUE NOT NULL,
+
+    FOREIGN KEY(id_bloco) REFERENCES bloco(id_bloco)
+);
+
+CREATE TABLE IF NOT EXISTS funcionario(
+    id_funcionario INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
+    id_morador INTEGER NOT NULL, 
+    id_condominio INTEGER NOT NULL,
+    cargo VARCHAR(100) NOT NULL,
+    data_admissao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    data_demissao DATE,
+    ativo BOOLEAN DEFAULT TRUE NOT NULL,
+
+    FOREIGN KEY(id_morador) REFERENCES morador(id_morador),
+    FOREIGN KEY(id_condominio) REFERENCES condominio(id_condominio)
+);
+
+CREATE TABLE IF NOT EXISTS sindico(
+    id_sindico INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id_morador INTEGER NOT NULL,
+    id_condominio INTEGER NOT NULL, 
+    data_inicio_mandato TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    data_fim_mandato DATE,
+    ativo BOOLEAN DEFAULT TRUE NOT NULL,
+
+    FOREIGN KEY(id_morador) REFERENCES morador(id_morador),
+    FOREIGN KEY(id_condominio) REFERENCES condominio(id_condominio)
+);
+
+CREATE TABLE IF NOT EXISTS visitante(
+    id_visitante INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL UNIQUE, 
+    cpf VARCHAR(11) NOT NULL UNIQUE,
+    telefone VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS acesso_visitante(
+    id_acesso INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id_visitante INTEGER NOT NULL UNIQUE, 
+    id_unidade INTEGER NOT NULL,
+    autorizado_por INTEGER NOT NULL,
+    data_entrada TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    data_saida TIMESTAMP,
+    status BOOLEAN DEFAULT TRUE NOT NULL,
+
+    FOREIGN KEY(id_visitante) REFERENCES visitante(id_visitante),
+    FOREIGN KEY(id_unidade) REFERENCES unidade(id_unidade),
+    FOREIGN KEY(autorizado_por) REFERENCES morador(id_morador)
+);

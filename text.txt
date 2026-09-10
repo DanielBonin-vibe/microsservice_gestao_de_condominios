@@ -1,0 +1,63 @@
+Morador:
+    - id_usuario
+    - nome
+    - data_nascimento
+    - cpf
+    - email
+    - senha_hash
+    - ativo
+    - data_criacao
+    - data_atualizacao
+
+Condomínio:
+    - id_condominio
+    - nome
+    - cnpj
+    - endereço
+    - ativo
+    - data_criacao
+
+Bloco:
+    - id_bloco
+    - id_condominio
+    - nome
+
+Unidade:
+    - id_unidade
+    - id_bloco
+    - numero
+    - andar
+    - tipo
+    - ativo
+
+Funcionário:
+    - id_funcionario
+    - id_usuario
+    - id_condominio
+    - cargo
+    - data_admissao
+    - data_demissao
+    - ativo
+
+Síndico:
+    - id_sindico
+    - id_usuario
+    - id_condominio
+    - data_inicio_mandato
+    - data_fim_mandato
+    - ativo
+
+visitante:
+    - id_visitante 
+    - nome
+    - cpf
+    - telefone
+
+Acesso_visitante:
+    - id_acesso
+    - id_visitante
+    - id_unidade
+    - autorizado_por
+    - data_entrada
+    - data_saida
+    - status
