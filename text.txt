@@ -61,3 +61,94 @@ Acesso_visitante:
     - data_entrada
     - data_saida
     - status
+
+
+Métodos:
+
+
+morador_repository.py
+│
+├── cadastrar_morador()
+├── buscar_morador_por_id()
+├── buscar_morador_por_cpf()
+├── buscar_morador_por_email()
+├── listar_moradores()
+├── listar_moradores_por_unidade()
+├── atualizar_morador()
+└── desativar_morador()
+
+
+condominio_repository.py
+│
+├── cadastrar_condominio()
+├── buscar_condominio_por_id()
+├── listar_condominios()
+├── atualizar_condominio()
+└── desativar_condominio()
+
+
+bloco_repository.py
+│
+├── cadastrar_bloco()
+├── buscar_bloco_por_id()
+├── listar_blocos()
+├── listar_blocos_por_condominio()
+├── atualizar_bloco()
+└── desativar_bloco()
+
+
+unidade_repository.py
+│
+├── cadastrar_unidade()
+├── buscar_unidade_por_id()
+├── buscar_unidade_por_numero()
+├── listar_unidades()
+├── listar_unidades_por_bloco()
+├── atualizar_unidade()
+└── desativar_unidade()
+
+
+funcionario_repository.py
+│
+├── cadastrar_funcionario()
+├── buscar_funcionario_por_id()
+├── buscar_funcionario_por_cpf()
+├── buscar_funcionario_por_email()
+├── listar_funcionarios()
+├── listar_funcionarios_por_condominio()
+├── atualizar_funcionario()
+└── desativar_funcionario()
+
+
+sindico_repository.py
+│
+├── cadastrar_sindico()
+├── buscar_sindico_por_id()
+├── buscar_sindico_por_cpf()
+├── buscar_sindico_por_email()
+├── listar_sindicos()
+├── buscar_sindico_por_condominio()
+├── atualizar_sindico()
+└── desativar_sindico()
+
+
+acesso_visitante_repository.py
+│
+├── registrar_entrada()
+├── registrar_saida()
+├── buscar_acesso_por_id()
+├── listar_acessos()
+├── listar_acessos_por_visitante()
+├── listar_acessos_por_unidade()
+├── listar_acessos_por_condominio()
+└── listar_visitantes_presentes()
+
+
+visitante_repository.py
+│
+├── cadastrar_visitante()
+├── buscar_visitante_por_id()
+├── buscar_visitante_por_documento()
+├── listar_visitantes()
+├── atualizar_visitante()
+└── desativar_visitante()
