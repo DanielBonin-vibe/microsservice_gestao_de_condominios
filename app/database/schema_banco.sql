@@ -47,14 +47,17 @@ CREATE TABLE IF NOT EXISTS unidade(
 
 CREATE TABLE IF NOT EXISTS funcionario(
     id_funcionario INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY, 
-    id_morador INTEGER NOT NULL, 
     id_condominio INTEGER NOT NULL,
+    nome VARCHAR(100) NOT NULL UNIQUE,
+    cpf VARCHAR(11) NOT NULL UNIQUE ,
+    email VARCHAR(100) NOT NULL UNIQUE,
     cargo VARCHAR(100) NOT NULL,
     data_admissao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     data_demissao DATE,
     ativo BOOLEAN DEFAULT TRUE NOT NULL,
+    data_criacao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    data_atualizacao TIMESTAMP
 
-    FOREIGN KEY(id_morador) REFERENCES morador(id_morador),
     FOREIGN KEY(id_condominio) REFERENCES condominio(id_condominio)
 );
 

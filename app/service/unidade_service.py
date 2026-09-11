@@ -164,7 +164,7 @@ class UnidadeRepository:
             cursor.close()
             conexao.close()    
 
-    def desativar_undiade(self, id_unidade):
+    def desativar_unidade(self, id_unidade):
         conexao = self.conectar_banco()
 
         try:
