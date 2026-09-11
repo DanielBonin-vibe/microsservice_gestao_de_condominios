@@ -1,17 +1,4 @@
-sindico_repository.py
-│
-├── cadastrar_sindico()
-├── buscar_sindico_por_id()
-├── buscar_sindico_por_cpf()
-├── buscar_sindico_por_email()
-├── listar_sindicos()
-├── buscar_sindico_por_condominio()
-├── atualizar_sindico()
-└── desativar_sindico()
-
-
-acesso_visitante_repository.py
-│
+acesso_visitante_repository.p│
 ├── registrar_entrada()
 ├── registrar_saida()
 ├── buscar_acesso_por_id()
