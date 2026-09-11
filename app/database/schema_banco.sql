@@ -24,6 +24,9 @@ CREATE TABLE IF NOT EXISTS bloco(
     id_bloco INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     id_condominio INTEGER NOT NULL,
     nome VARCHAR(100) NOT NULL,
+    ativo BOOLEAN DEFAULT TRUE NOT NULL,
+    data_criacao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    data_atualizacao TIMESTAMP
 
     FOREIGN KEY(id_condominio) REFERENCES condominio(id_condominio), 
     UNIQUE(id_condominio, nome)
