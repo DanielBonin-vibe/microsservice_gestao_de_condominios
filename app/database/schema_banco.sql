@@ -63,11 +63,16 @@ CREATE TABLE IF NOT EXISTS funcionario(
 
 CREATE TABLE IF NOT EXISTS sindico(
     id_sindico INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    id_morador INTEGER NOT NULL,
+    id_morador INTEGER,
     id_condominio INTEGER NOT NULL, 
+    nome VARCHAR(100) NOT NULL UNIQUE,
+    cpf VARCHAR(11) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE, 
     data_inicio_mandato TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     data_fim_mandato DATE,
     ativo BOOLEAN DEFAULT TRUE NOT NULL,
+    data_criacao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    data_atualizacao TIMESTAMP
 
     FOREIGN KEY(id_morador) REFERENCES morador(id_morador),
     FOREIGN KEY(id_condominio) REFERENCES condominio(id_condominio)
