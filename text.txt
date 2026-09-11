@@ -1,14 +1,3 @@
-acesso_visitante_repository.p│
-├── registrar_entrada()
-├── registrar_saida()
-├── buscar_acesso_por_id()
-├── listar_acessos()
-├── listar_acessos_por_visitante()
-├── listar_acessos_por_unidade()
-├── listar_acessos_por_condominio()
-└── listar_visitantes_presentes()
-
-
 visitante_repository.py
 │
 ├── cadastrar_visitante()
