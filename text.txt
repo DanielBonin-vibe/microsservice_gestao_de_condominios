@@ -1,13 +1,3 @@
-bloco_repository.py
-│
-├── cadastrar_bloco()
-├── buscar_bloco_por_id()
-├── listar_blocos()
-├── listar_blocos_por_condominio()
-├── atualizar_bloco()
-└── desativar_bloco()
-
-
 unidade_repository.py
 │
 ├── cadastrar_unidade()

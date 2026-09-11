@@ -39,6 +39,8 @@ CREATE TABLE IF NOT EXISTS unidade(
     andar INTEGER NOT NULL,
     tipo VARCHAR(100) NOT NULL,
     ativo BOOLEAN DEFAULT TRUE NOT NULL,
+    data_criacao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    data_atualizacao TIMESTAMP
 
     FOREIGN KEY(id_bloco) REFERENCES bloco(id_bloco)
 );
