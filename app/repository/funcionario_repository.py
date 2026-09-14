@@ -214,7 +214,7 @@ class FuncionarioRepository:
             cursor.close()
             conexao.close()
 
-    def atualizar_cpf_funcioanrio(self, id_funcionario, cpf):
+    def atualizar_cpf_funcionario(self, id_funcionario, cpf):
         conexao = self.conectar_banco()
 
         try:
