@@ -110,7 +110,7 @@ class CondominioRepository:
             cursor.close()
             conexao.close()
 
-    def listar_condominios(self):
+    def listar_condominios_ativos(self):
         conexao = self.conectar_banco()
 
         try:
