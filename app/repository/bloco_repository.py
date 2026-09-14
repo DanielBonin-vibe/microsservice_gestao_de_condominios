@@ -33,7 +33,7 @@ class BlocoRepository:
             cursor.close()
             conexao.close()
 
-    def buscar_bloco_por_id(self, id_bloco):
+    def buscar_bloco_por_id(self, id_condominio, id_bloco):
         conexao = self.conectar_banco()
 
         try:
@@ -41,8 +41,8 @@ class BlocoRepository:
 
             cursor.execute("""
             SELECT * FROM bloco
-            WHERE id_bloco = %s
-            """, (id_bloco,))
+            WHERE id_condominio = %s AND id_bloco = %s
+            """, (id_condominio, id_bloco))
 
             resultado = cursor.fetchone()
 
