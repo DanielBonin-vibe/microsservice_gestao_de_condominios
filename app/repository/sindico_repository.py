@@ -187,7 +187,7 @@ class SindicoRepository:
             cursor.close()
             conexao.close()
 
-    def atualizar_cpf_sindico(self, nome, cpf):
+    def atualizar_cpf_sindico(self, email, cpf):
         conexao = self.conectar_banco()
 
         try:
@@ -198,8 +198,8 @@ class SindicoRepository:
             SET
                 cpf = %s,
                 data_atualizacao = CURRENT_TIMESTAMP
-            WHERE nome = %s
-            """, (cpf, nome))
+            WHERE email = %s
+            """, (cpf, email))
 
             resultado = cursor.rowcount
 
