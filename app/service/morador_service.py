@@ -8,9 +8,9 @@ class MoradorService:
 
 
     def cadastrar_morador(self, nome, data_nascimento, cpf, email, senha):
-        cpf = self.morador_repository.buscar_morador_por_cpf(cpf)
+        morador = self.morador_repository.buscar_morador_por_cpf(cpf)
 
-        if cpf is not None:
+        if morador is not None:
             return 'O CPF informado já está vinculado a um morador.'
 
         senha_hash = gerar_hash(senha)
@@ -76,12 +76,42 @@ class MoradorService:
         return resultado
 
     def atualizar_info_morador(self, nome, data_nascimento, email, cpf):
-        ...
+        morador = self.morador_repository.buscar_morador_por_cpf(cpf)
+
+        if morador is None:
+            return 'Não foi possível localizar o morador apartir do CPF informado.'
+
+        resultado = self.morador_repository.atualizar_info_morador(nome, data_nascimento, email, cpf)
+
+        if resultado == 0:
+            return 'Não foi possivel atualizar as informações do morador.'
+
+        return resultado
 
     def atualizar_cpf_morador(self, email, cpf):
-        ...
+        morador = self.morador_repository.buscar_morador_por_email(email)
+
+        if morador is None:
+            return 'Não foi possível localizar nenhum morador vinculado a este Email.'
+
+        resultado = self.morador_repository.atualizar_cpf_morador(email, cpf)
+
+        if resultado == 0:
+            return 'Não foi possível atualizar o CPF do morador.' 
+        
+        return resultado
 
     def atualizar_status_morador(self, cpf, ativo):
-        ...
+        morador = self.morador_repository.bsucar_morador_por_cpf(cpf)
 
-morador_service = MoradorService(morador_repository)
+        if morador is None:
+            return 'Não foi possível localizar o morador apartir do CPF informado.'
+
+        resultado = self.morador_repository.atualziar_status_moraodr(cpf, ativo)
+
+        if resultado == 0:
+            return ' Não foi possível alterar o status de atividade do morador.'
+
+        return resultado
+
+morador_service = MoradorService(morador_repository, unidade_repository)
