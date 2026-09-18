@@ -3,7 +3,7 @@ from app.schemas.condominio import CriarCondominio, AtualizarCondominio, Atualiz
 from app.service import condominio_service
 
 router = APIRouter(
-    prefix='condominios',
+    prefix='/condominios',
     tags=['Condomínios']
 )
 
@@ -55,7 +55,7 @@ def listar_condominios_ativos():
 
     return resultado  
 
-@router.patch('atualizar-info/condominio/{cnpj}')
+@router.patch('/atualizar-info/condominio/{cnpj}')
 def atualizar_info_condominio(cnpj: str, dados: AtualizarCondominio):
     resultado = condominio_service.atualizar_info_condominio(cnpj, dados.nome, dados.endereco)
 
@@ -67,7 +67,7 @@ def atualizar_info_condominio(cnpj: str, dados: AtualizarCondominio):
 
     return resultado 
 
-@router.patch('/atualizar-cnpj/{endereco}/ativar')
+@router.patch('/atualizar-cnpj/{endereco}')
 def atualizar_cnpj_condominio(endereco: str, dados: AtualizarCnpjCondominio):
     resultado = condominio_service.atualizar_cnpj_condominio(dados.cnpj, endereco)
 
@@ -93,7 +93,7 @@ def atualizar_status_condominio(cnpj: str):
 
 @router.patch('/desativar-status/condominio/{cnpj}/desativar')
 def desativar_condominio(cnpj: str):
-    resultado = condominio_service.desativar.condominio(cnpj)
+    resultado = condominio_service.desativar_condominio(cnpj)
 
     if isinstance(resultado, str):
         raise HTTPException(
