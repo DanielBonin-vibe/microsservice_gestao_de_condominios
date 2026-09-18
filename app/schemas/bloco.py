@@ -5,6 +5,9 @@ class CriarBloco(BaseModel):
     id_condominio: int
     nome: str = Field(min_length=3, max_length=100)
 
+class AtualizarBloco(BaseModel):
+    nome: str | None = Field(default=None, min_length=3, max_length=100)
+
 class BlocoResponse(BaseModel):
     id_bloco: int
     id_condominio: int
