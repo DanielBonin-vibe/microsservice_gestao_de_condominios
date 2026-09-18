@@ -9,6 +9,9 @@ class AtualizarCondominio(BaseModel):
     nome: str | None = Field(default=None, min_length=3, max_length=100)
     endereco: str | None = Field(default=None, min_length=3, max_length=100)
 
+class AtualizarCnpjCondominio(BaseModel):
+    cnpj: str = Field(min_length=14, max_length=14)
+
 class CondominioResponse(BaseModel):
     id_condominio: int
     nome: str

@@ -201,7 +201,7 @@ class CondominioRepository:
             cursor.close()
             conexao.close()
 
-    def atualizar_status_condominio(self, ativo, cnpj):
+    def atualizar_status_condominio(self,  cnpj):
         conexao = self.conectar_banco()
 
         try:
@@ -210,10 +210,10 @@ class CondominioRepository:
             cursor.execute("""
             UPDATE condominio
             SET
-                ativo = COALESCE(%s, ativo),
+                ativo = TRUE
                 data_atualizacao = CURRENT_TIMESTAMP
             WHERE cnpj = %s
-            """, (ativo, cnpj))
+            """, (cnpj,))
 
             resultado = cursor.rowcount
 
