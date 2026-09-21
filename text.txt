@@ -1,8 +1,0 @@
-visitante_repository.py
-│
-├── cadastrar_visitante()
-├── buscar_visitante_por_id()
-├── buscar_visitante_por_documento()
-├── listar_visitantes()
-├── atualizar_visitante()
-└── desativar_visitante()
