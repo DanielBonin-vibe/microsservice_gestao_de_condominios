@@ -1,261 +1,140 @@
-from app.database.session import conectar
+from fastapi import APIRouter, HTTPException, status
+from app.schemas.funcionario import CriarFuncionario, AtualizarFuncionario
+from app.service import funcionario_service
 
-class FuncionarioRepository:
-    def __init__(self, conectar):
-        self.conectar_banco  = conectar
+router = APIRouter(
+    prefix='/funcionario',
+    tags=['Funcionário']
+)
 
-    def cadastrar_funcionario(self, id_condominio, nome, cpf, email, cargo):
-        conexao = self.conectar_banco()
+@router.post('/')
+def cadastrar_funcionario(dados: CriarFuncionario):
+    resultado = funcionario_service.cadastrar_funcionario(dados.nome, dados.cpf, dados.email, dados.cargo)
 
-        try:
-            cursor = conexao.cursor()
+    if isinstance(resultado, str):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=resultado
+        )
 
-            cursor.execute("""
-            INSERT INTO funcionario(id_condominio, nome, cpf, email, cargo)
-            VALUES(%s, %s, %s, %s, %s)
-            """, (id_condominio, nome, cpf, email, cargo))
+    return resultado
 
-            resultado = cursor.rowcount
+@router.get('/buscar-por-id/{id_funcionario}')
+def buscar_funcionario_por_id(id_funcionario: int):
+    resultado = funcionario_service.buscar_funcionario_por_id(id_funcionario)
 
-            if resultado > 0:
-                conexao.commit()
-                return resultado
+    if isinstance(resultado, str):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=resultado
+        )
 
-            conexao.rollback()
-            return 0
+    return resultado
 
-        except Exception as erro:
-            conexao.rollback()
-            print(f'Erro ao cadastrar funcionário: {erro}')
-            return 0
-        
-        finally:
-            cursor.close()
-            conexao.close()
+@router.get('/buscar-por-cpf/{cpf}')
+def buscar_funcionario_por_cpf(cpf: str):
+    resultado = funcionario_service.buscar_funcionario_por_cpf(cpf)
 
-    def buscar_funcionario_por_id(self, id_funcionario):
-        conexao = self.conectar_banco()
+    if isinstance(resultado, str):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=resultado
+        )
 
-        try:
-            cursor = conexao.cursor()
+    return resultado
 
-            cursor.execute("""
-            SELECT * FROM funcionario
-            WHERE id_funcionario = %s
-            """, (id_funcionario,))
+@router.get('/listar')
+def listar_funcionarios():
+    resultado = funcionario_service.listar_funcionarios()
 
-            resultado = cursor.fetchone()
+    if isinstance(resultado, str):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=resultado
+        )
 
-            return resultado
+    return resultado
 
-        except Exception as erro:
-            conexao.rollback()
-            print(f'Erro ao buscar funcionário por ID: {erro}')
-            return None
-        
-        finally:
-            cursor.close()
-            conexao.close()
+@router.get('/listar-ativos') 
+def listar_funcionarios_ativos():
+    resultado = funcionario_service.listar_funcionarios_ativos()
 
-    def buscar_funcionario_por_cpf(self, cpf):
-        conexao = self.conectar_banco()
+    if isinstance(resultado, str):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=resultado
+        )
 
-        try:
-            cursor = conexao.cursor()
+    return resultado
 
-            cursor.execute("""
-            SELECT * FROM funcionario
-            WHERE cpf = %s
-            """, (cpf,))
+@router.get('/listar-ativos-por-condominio/{id_condominio}')
+def listar_funcionario_por_condominio(id_condominio: int):
+    resultado = funcionario_service.listar_funcionario_por_condominio(id_condominio)
 
-            resultado = cursor.fetchone()
+    if isinstance(resultado, str):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=resultado
+        )
 
-            return resultado
+    return resultado 
 
-        except Exception as erro:
-            conexao.rollback()
-            print(f'Erro ao buscar funcionário por CPF: {erro}')
-            return None
-        
-        finally:
-            cursor.close()
-            conexao.close()
+@router.get('/listar-funcionarios-ativos-por-condominio/{id_condominio}')
+def listar_funcionarios_ativos_por_condominio(id_condominio: int):
+    resultado = funcionario_service.listar_funcionarios_ativos_por_condominio(id_condominio)
 
-    def buscar_funcionario_por_email(self, email):
-        conexao = self.conectar_banco()
+    if isinstance(resultado, str):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=resultado
+        )
 
-        try:
-            cursor = conexao.cursor()
+    return resultado
 
-            cursor.execute("""
-            SELECT * FROM funcionario
-            WHERE email = %s
-            """, (email,))
+@router.patch('/atualizar-info/{cpf}')
+def atualizar_info_funcionario(cpf: str, dados: AtualizarFuncionario):
+    resultado = funcionario_service.atualizar_info_funcionarios(cpf, dados.nome, dados.email, dados.cargo)
 
-            resultado = cursor.fetchone()
+    if isinstance(resultado, str):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=resultado
+        )
 
-            return resultado
+    return resultado
 
-        except Exception as erro:
-            conexao.rollback()
-            print(f'Erro ao buscar funcionário por Email: {erro}')
-            return None
-        
-        finally:
-            cursor.close()
-            conexao.close()
+@router.patch('/atualizar-cpf/{id_funcionario}')
+def atualizar_cpf_funcionario(id_funcionario: int, dados: AtualizarFuncionario):
+    resultado = funcionario_service.atualizar_cpf_funcionarios(id_funcionario, dados.cpf)
 
-    def listar_funcionarios(self):
-        conexao = self.conectar_banco()
+    if isinstance(resultado, str):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=resultado
+        )
 
-        try:
-            cursor = conexao.cursor()
+    return resultado
 
-            cursor.execute("""
-            SELECT * FROM funcionario
-            """)
+@router.patch('/atualizar-status/{cpf}')
+def atualizar_status_funcionario(cpf: str):
+    resultado = funcionario_service.atualizar_status_funcionario(cpf)
 
-            resultado = cursor.fetchall()
+    if isinstance(resultado, str):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=resultado
+        )
 
-            if not resultado:
-                return []
-            
-            return resultado
+    return resultado
 
-        except Exception as erro:
-            print(f'Erro ao listar funcionários: {erro}')
-            return []
-        
-        finally:
-            cursor.close()
-            conexao.close()
+@router.patch('/desativar-funcionario/{cpf}')
+def registrar_demissao(cpf: str):
+    resultado = funcionario_service.registrar_demissao(cpf)
 
-    def listar_funcionarios_por_condominio(self, id_condominio):
-        conexao = self.conectar_banco()
+    if isinstance(resultado, str):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=resultado
+        )
 
-        try:
-            cursor = conexao.cursor()
-
-            cursor.execute("""
-            SELECT * FROM funcionario
-            WHERE id_condominio = %s
-            ORDER BY id_funcionario
-            """, (id_condominio,))
-
-            resultado = cursor.fetchall()
-
-            if not resultado:
-                return []
-            
-            return resultado
-
-        except Exception as erro:
-            print(f'Erro ao listar funcionários: {erro}')
-            return []
-        
-        finally:
-            cursor.close()
-            conexao.close()
-
-    def atualizar_info_funcionario(self, cpf, id_condominio, nome, email, cargo):
-        conexao = self.conectar_banco()
-
-        try:
-            cursor = conexao.cursor()
-
-            cursor.execute("""
-            UPDATE funcionario
-            SET
-                id_condominio = COALESCE(%s, id_condominio),
-                nome = COALESCE(%s, nome),
-                email = COALESCE(%s, email),
-                cargo = COALESCE(%s, cargo),
-                data_atualizacao = CURRENT_TIMESTAMP
-            WHERE cpf = %s
-            """, (id_condominio, nome, email, cargo, cpf))
-
-            resultado = cursor.rowcount
-
-            if resultado > 0:
-                conexao.commit()
-                return resultado
-
-            conexao.rollback()
-            return 0
-
-        except Exception as erro:
-            conexao.rollback()
-            print(f'Erro ao atualizar informações do funcionário: {erro}')
-            return 0
-        
-        finally:
-            cursor.close()
-            conexao.close()
-
-    def atualizar_cpf_funcionario(self, nome, cpf):
-        conexao = self.conectar_banco()
-
-        try:
-            cursor = conexao.cursor()
-
-            cursor.execute("""
-            UPDATE funcionario
-            SET
-                cpf = %s,
-                data_atualizacao = CURRENT_TIMESTAMP
-            WHERE nome = %s
-            """, (cpf, nome))
-
-            resultado = cursor.rowcount
-
-            if resultado > 0:
-                conexao.commit()
-                return resultado
-
-            conexao.rollback()
-            return 0
-
-        except Exception as erro:
-            conexao.rollback()
-            print(f'Erro ao atualizar informações do CPF funcionário: {erro}')
-            return 0
-        
-        finally:
-            cursor.close()
-            conexao.close()
-
-    def desativar_usuario(self, cpf):
-        conexao = self.conectar_banco()
-
-        try:
-            cursor = conexao.cursor()
-
-            cursor.execute("""
-            UPDATE funcionario
-            SET
-                ativo = FALSE,
-                data_atualizacao = CURRENT_TIMESTAMP,
-                data_demissao = CURRENT_TIMESTAMP
-            WHERE cpf = %s
-            """, (cpf, ))
-
-            resultado = cursor.rowcount
-
-            if resultado > 0:
-                conexao.commit()
-                return resultado
-
-            conexao.rollback()
-            return 0
-
-        except Exception as erro:
-            conexao.rollback()
-            print(f'Erro ao destaivar a conta do funcionário: {erro}')
-            return 0
-        
-        finally:
-            cursor.close()
-            conexao.close()   
-
-
-funcionario_repository = FuncionarioRepository(conectar)
+    return resultado
