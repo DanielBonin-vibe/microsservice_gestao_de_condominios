@@ -13,7 +13,7 @@ class AtualizarMorador(BaseModel):
     data_nascimento: date | None = Field(default=None, min_length=3, max_length=100)
     cpf: str | None = Field(default=None, min_length=3, max_length=100)
     email: str | None = Field(default=None, min_length=3, max_length=100)
-    data_atualizacao = datetime
+    data_atualizacao: datetime
 
 class MoradorResponse(BaseModel):
     id_morador: int

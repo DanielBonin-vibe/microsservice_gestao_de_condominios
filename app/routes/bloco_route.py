@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, status
 from app.service import bloco_service
-from app.schemas.bloco import CriarBloco, AtualizarBloco, DesativarBloco, BlocoResponse
+from app.schemas.bloco import CriarBloco, AtualizarBloco, BlocoResponse
 
 router = APIRouter(
     prefix='/blocos',

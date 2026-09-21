@@ -3,8 +3,8 @@ from pydantic import BaseModel, Field
 
 class CriarAcessoVisitante(BaseModel):
     id_visitante: int
-    id_unidade = int
-    autorizado_por = int
+    id_unidade: int
+    autorizado_por: int
 
 class SaidaAcessoVisitante(BaseModel):
     data_saida: datetime | None = None
