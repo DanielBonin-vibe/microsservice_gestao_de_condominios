@@ -102,7 +102,7 @@ class MoradorService:
         return resultado
 
     def atualizar_status_morador(self, cpf, ativo):
-        morador = self.morador_repository.bsucar_morador_por_cpf(cpf)
+        morador = self.morador_repository.buscar_morador_por_cpf(cpf)
 
         if morador is None:
             return 'Não foi possível localizar o morador apartir do CPF informado.'
