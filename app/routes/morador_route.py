@@ -4,8 +4,8 @@ from app.service import morador_service
 from pydantic import EmailStr
 
 router = APIRouter(
-    prefix='/morador',
-    tags=['Morador']
+    prefix='/moradores',
+    tags=['Moradores']
 )
 
 @router.post('/')
