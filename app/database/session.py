@@ -1,11 +1,11 @@
 import os
-import psycopg
+import psycopg2
 from dotenv import load_dotenv
 
 load_dotenv()
 
 def conectar():
-    return psycopg.connect(
+    return psycopg2.connect(
     dbname=os.gettenv('DB_NAME'),
     password=os.getenv('DB_PASSWORD'),
     user=os.getenv('DB_USER'),
